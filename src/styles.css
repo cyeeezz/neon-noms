@@ -62,26 +62,40 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  /* JellyBelly — neon underwater system. Dark by default. */
+  --radius: 1rem;
+  --background: oklch(0.12 0.05 270);
+  --foreground: oklch(0.98 0.01 240);
+  --card: oklch(0.18 0.06 275 / 0.55);
+  --card-foreground: oklch(0.98 0.01 240);
+  --popover: oklch(0.16 0.06 275);
+  --popover-foreground: oklch(0.98 0.01 240);
+  --primary: oklch(0.86 0.18 200);
+  --primary-foreground: oklch(0.12 0.05 270);
+  --secondary: oklch(0.55 0.25 295);
+  --secondary-foreground: oklch(0.98 0.01 240);
+  --muted: oklch(0.22 0.05 270);
+  --muted-foreground: oklch(0.72 0.04 250);
+  --accent: oklch(0.7 0.22 330);
+  --accent-foreground: oklch(0.98 0.01 240);
+  --destructive: oklch(0.65 0.25 25);
+  --destructive-foreground: oklch(0.98 0.01 240);
+  --border: oklch(0.98 0.01 240 / 0.12);
+  --input: oklch(0.98 0.01 240 / 0.15);
+  --ring: oklch(0.86 0.18 200);
+
+  --cyan: oklch(0.86 0.18 200);
+  --neon: oklch(0.7 0.22 295);
+  --magenta: oklch(0.7 0.24 330);
+  --ocean: oklch(0.12 0.05 270);
+
+  --gradient-aurora: linear-gradient(135deg, oklch(0.86 0.18 200), oklch(0.65 0.24 295), oklch(0.7 0.24 330));
+  --gradient-ocean: radial-gradient(circle at 20% 0%, oklch(0.86 0.18 200 / 0.18), transparent 45%),
+                     radial-gradient(circle at 80% 100%, oklch(0.65 0.24 295 / 0.22), transparent 45%),
+                     oklch(0.1 0.05 270);
+  --shadow-glow: 0 0 24px oklch(0.86 0.18 200 / 0.45), 0 0 60px oklch(0.65 0.24 295 / 0.35);
+  --shadow-card: 0 20px 60px -15px oklch(0.05 0.04 270 / 0.7);
+  --transition-smooth: 400ms cubic-bezier(0.22, 1, 0.36, 1);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -138,7 +152,67 @@
   }
 
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-ocean);
     color: var(--color-foreground);
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    min-height: 100vh;
   }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: oklch(1 0 0 / 0.05);
+    border: 1px solid oklch(1 0 0 / 0.1);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+  }
+  .glass-strong {
+    background: oklch(0.16 0.06 275 / 0.7);
+    border: 1px solid oklch(1 0 0 / 0.12);
+    backdrop-filter: blur(28px) saturate(160%);
+  }
+  .neon-border {
+    box-shadow: var(--shadow-glow);
+  }
+  .text-aurora {
+    background: var(--gradient-aurora);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-aurora { background: var(--gradient-aurora); }
+
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  .animate-float { animation: float-y 6s ease-in-out infinite; }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 18px oklch(0.86 0.18 200 / 0.4); }
+    50% { box-shadow: 0 0 36px oklch(0.86 0.18 200 / 0.7), 0 0 80px oklch(0.7 0.22 295 / 0.5); }
+  }
+  .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .shimmer {
+    background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.08), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s infinite;
+  }
+
+  @keyframes drift {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -20px) scale(1.05); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+  .animate-drift { animation: drift 14s ease-in-out infinite; }
 }
