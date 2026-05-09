@@ -100,6 +100,12 @@ function Hero() {
           >
             <MapIcon size={16} /> Explore map
           </Link>
+          <Link
+            to="/login"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full glass hover:bg-card transition-colors"
+          >
+            Sign in
+          </Link>
         </motion.div>
 
         <div className="mt-16 flex justify-center">

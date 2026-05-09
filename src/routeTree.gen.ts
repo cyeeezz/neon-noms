@@ -10,7 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SwipeRouteImport } from './routes/swipe'
+import { Route as StackRouteImport } from './routes/stack'
+import { Route as SavedRouteImport } from './routes/saved'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as MatchRouteImport } from './routes/match'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SwipeRoute = SwipeRouteImport.update({
@@ -18,9 +23,34 @@ const SwipeRoute = SwipeRouteImport.update({
   path: '/swipe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StackRoute = StackRouteImport.update({
+  id: '/stack',
+  path: '/stack',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SavedRoute = SavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MatchRoute = MatchRouteImport.update({
+  id: '/match',
+  path: '/match',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,31 +61,76 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/map': typeof MapRoute
+  '/match': typeof MatchRoute
+  '/profile': typeof ProfileRoute
+  '/saved': typeof SavedRoute
+  '/stack': typeof StackRoute
   '/swipe': typeof SwipeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/map': typeof MapRoute
+  '/match': typeof MatchRoute
+  '/profile': typeof ProfileRoute
+  '/saved': typeof SavedRoute
+  '/stack': typeof StackRoute
   '/swipe': typeof SwipeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
   '/map': typeof MapRoute
+  '/match': typeof MatchRoute
+  '/profile': typeof ProfileRoute
+  '/saved': typeof SavedRoute
+  '/stack': typeof StackRoute
   '/swipe': typeof SwipeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/map' | '/swipe'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/map'
+    | '/match'
+    | '/profile'
+    | '/saved'
+    | '/stack'
+    | '/swipe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/map' | '/swipe'
-  id: '__root__' | '/' | '/map' | '/swipe'
+  to:
+    | '/'
+    | '/login'
+    | '/map'
+    | '/match'
+    | '/profile'
+    | '/saved'
+    | '/stack'
+    | '/swipe'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/map'
+    | '/match'
+    | '/profile'
+    | '/saved'
+    | '/stack'
+    | '/swipe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
   MapRoute: typeof MapRoute
+  MatchRoute: typeof MatchRoute
+  ProfileRoute: typeof ProfileRoute
+  SavedRoute: typeof SavedRoute
+  StackRoute: typeof StackRoute
   SwipeRoute: typeof SwipeRoute
 }
 
@@ -68,11 +143,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SwipeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stack': {
+      id: '/stack'
+      path: '/stack'
+      fullPath: '/stack'
+      preLoaderRoute: typeof StackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/match': {
+      id: '/match'
+      path: '/match'
+      fullPath: '/match'
+      preLoaderRoute: typeof MatchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/map': {
       id: '/map'
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,7 +197,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
   MapRoute: MapRoute,
+  MatchRoute: MatchRoute,
+  ProfileRoute: ProfileRoute,
+  SavedRoute: SavedRoute,
+  StackRoute: StackRoute,
   SwipeRoute: SwipeRoute,
 }
 export const routeTree = rootRouteImport

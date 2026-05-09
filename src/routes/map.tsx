@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { MapPin, Navigation, Star } from "lucide-react";
-import { NavBar } from "@/components/jelly/NavBar";
+import { Flame, MapPin, Navigation, Star, TrendingUp } from "lucide-react";
+import { TopBar, BottomNav } from "@/components/jelly/AppShell";
 import { restaurants, type Restaurant } from "@/data/restaurants";
+import { friends } from "@/data/user";
 
 export const Route = createFileRoute("/map")({
   component: MapPage,
@@ -20,7 +21,8 @@ function MapPage() {
 
   return (
     <div className="min-h-[100svh] relative overflow-hidden">
-      <NavBar />
+      <TopBar />
+      <BottomNav />
 
       {/* stylized map canvas */}
       <div className="absolute inset-0 -z-10">
@@ -48,7 +50,7 @@ function MapPage() {
       </div>
 
       {/* pins */}
-      <div className="absolute inset-0 pt-24">
+      <div className="absolute inset-0 pt-24 pb-48">
         {restaurants.map((r) => {
           const active = selected.id === r.id;
           return (
@@ -82,15 +84,88 @@ function MapPage() {
             <div className="relative size-5 rounded-full bg-secondary border-2 border-background shadow-[0_0_20px_oklch(0.55_0.25_295)]" />
           </div>
         </div>
+
+        {/* friend pins */}
+        {friends.filter((f) => f.online).map((f, i) => (
+          <motion.div
+            key={f.id}
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity, delay: i * 0.4 }}
+            className="absolute"
+            style={{ left: `${20 + i * 18}%`, top: `${30 + ((i * 11) % 30)}%` }}
+          >
+            <div className="relative">
+              <img src={f.avatar} alt="" className="size-8 rounded-full border-2 border-secondary shadow-[0_0_12px_oklch(0.55_0.25_295)]" />
+              <span className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full bg-primary border-2 border-background" />
+            </div>
+          </motion.div>
+        ))}
+
+        {/* heat blob */}
+        <div className="absolute size-40 rounded-full bg-secondary/30 blur-2xl animate-pulse" style={{ left: "55%", top: "40%" }} />
       </div>
 
-      {/* detail card */}
+      {/* live activity ticker */}
+      <div className="fixed top-20 left-1/2 -translate-x-1/2 z-30 w-[min(96vw,520px)]">
+        <motion.div
+          key={friends[0].id}
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="glass rounded-full px-3 py-1.5 flex items-center gap-2 text-xs"
+        >
+          <span className="size-1.5 rounded-full bg-primary animate-pulse" />
+          <span className="text-muted-foreground truncate">
+            <span className="text-foreground font-medium">{friends[0].name}</span> is {friends[0].status}
+          </span>
+        </motion.div>
+      </div>
+
+      {/* recommendations carousel */}
+      <div className="fixed bottom-20 left-0 right-0 z-30 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex items-center justify-between mb-2 px-2">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-primary flex items-center gap-1.5">
+              <TrendingUp size={11} /> Trending nearby
+            </p>
+            <span className="text-[11px] text-muted-foreground">{restaurants.length} spots</span>
+          </div>
+          <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory -mx-2 px-2">
+            {restaurants.map((r) => (
+              <button
+                key={r.id}
+                onClick={() => setSelected(r)}
+                className={`shrink-0 snap-start w-44 glass-strong rounded-2xl overflow-hidden text-left transition-all ${
+                  selected.id === r.id ? "ring-2 ring-primary shadow-[var(--shadow-glow)]" : ""
+                }`}
+              >
+                <div className="relative h-24">
+                  <img src={r.image} alt="" className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
+                  <span className="absolute top-2 left-2 text-[9px] uppercase glass-strong px-1.5 py-0.5 rounded-full flex items-center gap-1">
+                    <Flame size={9} className="text-secondary" /> Hot
+                  </span>
+                </div>
+                <div className="p-2.5">
+                  <p className="text-[9px] uppercase tracking-wider text-primary truncate">{r.cuisine}</p>
+                  <p className="font-display text-sm font-semibold truncate">{r.name}</p>
+                  <div className="flex items-center justify-between text-[10px] text-muted-foreground mt-0.5">
+                    <span className="flex items-center gap-0.5"><Star size={9} className="fill-primary text-primary" />{r.rating}</span>
+                    <span>{r.distanceKm} km</span>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* detail card (selected) */}
       <motion.div
         key={selected.id}
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.35 }}
-        className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[min(92vw,520px)] glass-strong rounded-3xl p-4 shadow-[var(--shadow-card)]"
+        className="hidden"
       >
         <div className="flex gap-4">
           <img src={selected.image} alt={selected.name} className="size-20 rounded-2xl object-cover" />
