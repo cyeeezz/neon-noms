@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SwipeRouteImport } from './routes/swipe'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const SwipeRoute = SwipeRouteImport.update({
   id: '/swipe',
   path: '/swipe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MapRoute = MapRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
   '/swipe': typeof SwipeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
   '/swipe': typeof SwipeRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/map': typeof MapRoute
+  '/profile': typeof ProfileRoute
   '/swipe': typeof SwipeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/map' | '/swipe'
+  fullPaths: '/' | '/login' | '/map' | '/profile' | '/swipe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/map' | '/swipe'
-  id: '__root__' | '/' | '/login' | '/map' | '/swipe'
+  to: '/' | '/login' | '/map' | '/profile' | '/swipe'
+  id: '__root__' | '/' | '/login' | '/map' | '/profile' | '/swipe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
   MapRoute: typeof MapRoute
+  ProfileRoute: typeof ProfileRoute
   SwipeRoute: typeof SwipeRoute
 }
 
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/swipe'
       fullPath: '/swipe'
       preLoaderRoute: typeof SwipeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/map': {
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
   MapRoute: MapRoute,
+  ProfileRoute: ProfileRoute,
   SwipeRoute: SwipeRoute,
 }
 export const routeTree = rootRouteImport
