@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SwipeRouteImport } from './routes/swipe'
 import { Route as StackRouteImport } from './routes/stack'
+import { Route as SavedRouteImport } from './routes/saved'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MatchRouteImport } from './routes/match'
 import { Route as MapRouteImport } from './routes/map'
@@ -25,6 +26,11 @@ const SwipeRoute = SwipeRouteImport.update({
 const StackRoute = StackRouteImport.update({
   id: '/stack',
   path: '/stack',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SavedRoute = SavedRouteImport.update({
+  id: '/saved',
+  path: '/saved',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/map': typeof MapRoute
   '/match': typeof MatchRoute
   '/profile': typeof ProfileRoute
+  '/saved': typeof SavedRoute
   '/stack': typeof StackRoute
   '/swipe': typeof SwipeRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/map': typeof MapRoute
   '/match': typeof MatchRoute
   '/profile': typeof ProfileRoute
+  '/saved': typeof SavedRoute
   '/stack': typeof StackRoute
   '/swipe': typeof SwipeRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/map': typeof MapRoute
   '/match': typeof MatchRoute
   '/profile': typeof ProfileRoute
+  '/saved': typeof SavedRoute
   '/stack': typeof StackRoute
   '/swipe': typeof SwipeRoute
 }
@@ -89,10 +98,19 @@ export interface FileRouteTypes {
     | '/map'
     | '/match'
     | '/profile'
+    | '/saved'
     | '/stack'
     | '/swipe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/map' | '/match' | '/profile' | '/stack' | '/swipe'
+  to:
+    | '/'
+    | '/login'
+    | '/map'
+    | '/match'
+    | '/profile'
+    | '/saved'
+    | '/stack'
+    | '/swipe'
   id:
     | '__root__'
     | '/'
@@ -100,6 +118,7 @@ export interface FileRouteTypes {
     | '/map'
     | '/match'
     | '/profile'
+    | '/saved'
     | '/stack'
     | '/swipe'
   fileRoutesById: FileRoutesById
@@ -110,6 +129,7 @@ export interface RootRouteChildren {
   MapRoute: typeof MapRoute
   MatchRoute: typeof MatchRoute
   ProfileRoute: typeof ProfileRoute
+  SavedRoute: typeof SavedRoute
   StackRoute: typeof StackRoute
   SwipeRoute: typeof SwipeRoute
 }
@@ -128,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/stack'
       fullPath: '/stack'
       preLoaderRoute: typeof StackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/saved': {
+      id: '/saved'
+      path: '/saved'
+      fullPath: '/saved'
+      preLoaderRoute: typeof SavedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -174,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   MapRoute: MapRoute,
   MatchRoute: MatchRoute,
   ProfileRoute: ProfileRoute,
+  SavedRoute: SavedRoute,
   StackRoute: StackRoute,
   SwipeRoute: SwipeRoute,
 }
